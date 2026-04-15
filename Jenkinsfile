@@ -19,8 +19,19 @@ pipeline{
                 sh 'mvn clean package -DskipTests=true'
                 }
             }
+        stage('archive artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
         stage('unit test'){
             steps {
+                 //introduce a delay of 60 seconds before executing the tests through for loop
+                script {
+                        for (int i = 0; i < 60; i++) {
+                            echo "${i + 1}"
+                            sleep 1
+                        }
                 sh 'mvn test'
             }
         }
