@@ -4,7 +4,10 @@ pipeline{
     tools {
         maven 'maven'
     }
-
+    parameters {
+        choice(name: 'BRANCH_NAME', choices: ['main', 'test'], description: 'Choose the branch to build')
+        string(name: 'SLEEP_TIME', defaultValue: '10', description: 'Enter the sleep time')
+        }
     stages {
         stage('Echo Version') {
             steps {
@@ -32,6 +35,7 @@ pipeline{
                             sleep 1
                         }
                         sh 'mvn test'
+                        junit(testResults: 'target/surefire-reports/TST-*.xml', keepProperties: true, keepTestNames: true)
                 }
             }
         }
