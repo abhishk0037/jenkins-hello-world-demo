@@ -12,7 +12,6 @@ pipeline{
                 sh 'mvn -version'
             }
         }
-
         stage('build') {
             steps {
                 git branch: 'main', url: 'https://github.com/abhishk0037/jenkins-hello-world-demo.git'
@@ -32,7 +31,8 @@ pipeline{
                             echo "${i + 1}"
                             sleep 1
                         }
-                sh 'mvn test'
+                        sh 'mvn test'
+                }
             }
         }
     }
