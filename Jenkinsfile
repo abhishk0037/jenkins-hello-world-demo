@@ -30,14 +30,25 @@ pipeline{
             steps {
                  //introduce a delay of 60 seconds before executing the tests through for loop
                 script {
-                        for (int i = 0; i < 60; i++) {
+                        for (int i = 0; i < 30; i++) {
                             echo "${i + 1}"
                             sleep 1
                         }
                         sh 'mvn test'
-                        junit(testResults: 'target/surefire-reports/TST-*.xml', keepProperties: true, keepTestNames: true)
+                        //junit(testResults: 'target/surefire-reports/TST-*.xml', keepProperties: true, keepTestNames: true)
                 }
             }
+        }
+        stage('deploy'){
+            steps {
+                sh 'java -jar target/*.jar &'
+            }
+        }
+        stage('integration-test'){
+            steps {
+                sh 'curl http://localhost:8080/hello'
+            }
+        }
         }
     }
 }
