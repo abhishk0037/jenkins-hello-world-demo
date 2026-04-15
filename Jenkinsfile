@@ -41,12 +41,12 @@ pipeline{
         }
         stage('deploy'){
             steps {
-                sh 'java -jar target/*.jar &'
+                sh """java -jar target/*.jar > /dev/null &"""
             }
         }
         stage('integration-test'){
             steps {
-                sh 'curl http://localhost:8080/hello'
+                sh 'curl http://localhost:6767/hello'
             }
         }
         }
